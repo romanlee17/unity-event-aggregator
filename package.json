@@ -1,0 +1,14 @@
+{
+    "name": "com.romanlee17.eventaggregator",
+    "version": "1.0.0",
+    "displayName": "Event Aggregator pattern implementation for Unity",
+    "description": "This is a simple implementation of the Event Aggregator pattern for Unity. It has its own debug window to see all the events that are being sent and received.",
+    "unity": "2021.3",
+    "documentationUrl": "https://github.com/romanlee17/unity-event-aggregator",
+    "changelogUrl": "https://github.com/romanlee17/unity-event-aggregator/releases",
+    "dependencies": {},
+    "author": {
+        "name": "Roman Lee",
+        "url": "https://github.com/romanlee17"
+    }
+}
