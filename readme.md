@@ -1,11 +1,11 @@
-Event Aggregator implementation for Unity.
+### Event Aggregator pattern implementation for Unity
 
-## About
+### About
 
 This is a simple implementation of the Event Aggregator pattern for Unity.<br/>
 It has its own debug window to see all the events that are being sent and received.
 
-## Installation
+### Installation
 
 To install this package, simply open Unity Package Manager,<br/>
 click on the + icon and select "Add package from git URL...",<br/>
