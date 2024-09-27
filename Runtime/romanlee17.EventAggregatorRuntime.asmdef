@@ -1,0 +1,14 @@
+{
+    "name": "romanlee17.EventAggregatorRuntime",
+    "rootNamespace": "romanlee17.EventAggregatorRuntime",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

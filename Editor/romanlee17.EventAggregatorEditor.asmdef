@@ -1,0 +1,16 @@
+{
+    "name": "romanlee17.EventAggregatorEditor",
+    "rootNamespace": "romanlee17.EventAggregatorEditor",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
