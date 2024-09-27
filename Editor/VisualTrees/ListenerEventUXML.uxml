@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/romanlee17.EventAggregator/Editor/EventAggregatorUSS.uss?fileID=7433441132597879392&amp;guid=ecb17196509008d4fac6a81ba305e8d9&amp;type=3#EventAggregatorUSS" />
+    <Style src="../StyleSheets/EventAggregatorUSS.uss" />
     <ui:VisualElement name="publish-event" class="publish-event">
         <ui:VisualElement name="border-left-icon" class="border-left-icon" />
         <ui:VisualElement name="event-icon" class="event-icon" />
