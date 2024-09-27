@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/romanlee17.EventAggregator/Editor/StyleSheets/EventAggregatorUSS.uss?fileID=7433441132597879392&amp;guid=ecb17196509008d4fac6a81ba305e8d9&amp;type=3#EventAggregatorUSS" />
+    <ui:VisualElement name="publish-event" class="publish-event">
+        <ui:VisualElement name="border-left-icon" class="border-left-icon" />
+        <ui:VisualElement name="publisher-icon" class="publisher-icon" />
+        <ui:Label tabindex="-1" text="PublisherName" parse-escape-sequences="true" display-tooltip-when-elided="true" name="publisher-name" class="publisher-name" />
+        <ui:VisualElement name="arrow-right-icon" class="broadcast-icon" style="background-image: url(&quot;project://database/Assets/romanlee17.EventAggregator/Editor/StyleSheets/broadcast.png?fileID=2800000&amp;guid=3f7d4de9956b5f944b99794919b54bd2&amp;type=3#broadcast&quot;);" />
+        <ui:VisualElement name="event-icon" class="event-icon" />
+        <ui:Label tabindex="-1" text="EventName" parse-escape-sequences="true" display-tooltip-when-elided="true" name="event-name" class="event-name" />
+    </ui:VisualElement>
+</ui:UXML>

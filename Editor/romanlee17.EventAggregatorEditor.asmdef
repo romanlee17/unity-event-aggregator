@@ -1,7 +1,9 @@
 {
     "name": "romanlee17.EventAggregatorEditor",
     "rootNamespace": "romanlee17.EventAggregatorEditor",
-    "references": [],
+    "references": [
+        "romanlee17.EventAggregatorRuntime"
+    ],
     "includePlatforms": [
         "Editor"
     ],
