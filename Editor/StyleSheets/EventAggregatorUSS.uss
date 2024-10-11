@@ -13,7 +13,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../Textures/publisher-icon.png");
+    background-image: url("../EditorTextures/publisher-icon.png");
 }
 
 .event-icon {
@@ -21,7 +21,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../Textures/event-icon.png");
+    background-image: url("../EditorTextures/event-icon.png");
 }
 
 .publisher-name {
@@ -55,7 +55,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../Textures/arrow-right-icon.png");
+    background-image: url("../EditorTextures/arrow-right-icon.png");
     margin-right: 5px;
     margin-left: 5px;
     -unity-background-image-tint-color: rgb(255, 255, 255);
@@ -124,7 +124,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../Textures/arrow-right-icon.png");
+    background-image: url("../EditorTextures/arrow-right-icon.png");
     margin-right: 5px;
     margin-left: 5px;
     -unity-background-image-tint-color: rgb(255, 255, 255);
