@@ -168,8 +168,10 @@ namespace romanlee17.EventAggregatorEditor {
                 eventAggregator.OnPublishEvent += OnPublishEvent;
                 eventAggregator.OnListenerEvent += OnListenerEvent;
             }
+            // Check if event aggregator instance exists.
+            if (eventAggregator == null) return;
             // Recreate event container based on new event aggregator instance.
-            foreach (EventData eventData in EventAggregator.Containers[this.eventAggregator]) {
+            foreach (EventData eventData in EventAggregator.Containers[eventAggregator]) {
                 UpdateEventContainer(eventData.EventDepth);
                 if (eventData.EventType == EventType.Publisher) {
                     eventContainer.Add(new PublisherElement(publisherUXML) {
