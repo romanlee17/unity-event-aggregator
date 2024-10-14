@@ -2,6 +2,7 @@ namespace romanlee17.EventAggregatorRuntime {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine;
 
     public class EventAggregator : IEventAggregator, IDisposable {
 
@@ -104,11 +105,17 @@ namespace romanlee17.EventAggregatorRuntime {
                             try {
                                 ((IEventListener<TEvent>)eventListener).OnEvent(eventData);
                             }
+                            catch (Exception exception) {
+                                Debug.LogError(exception);
+                            }
                             finally {
                                 // Decrement depth because of listener event.
                                 eventDepth--;
                             }
                         }
+                    }
+                    catch (Exception exception) {
+                        Debug.LogError(exception);
                     }
                     finally {
                         // Remove event from stack.
