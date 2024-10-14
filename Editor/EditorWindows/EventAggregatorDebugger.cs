@@ -1,11 +1,10 @@
 namespace romanlee17.EventAggregatorEditor {
     using romanlee17.EventAggregatorRuntime;
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.UIElements;
-    using static UnityEngine.UI.InputField;
     using EventType = EventAggregatorRuntime.EventType;
 
     internal class EventAggregatorDebugger : EditorWindow {
@@ -73,21 +72,26 @@ namespace romanlee17.EventAggregatorEditor {
             // Clear button element.
             VisualElement clearButton = windowContentElement.Q<VisualElement>(CLEAR_BUTTON_ELEMENT);
             clearButton.RegisterCallback<ClickEvent>(OnClearButtonClick);
+            OnClearContentEvent += OnClearContent;
 
             rootVisualElement.Add(windowContentElement);
 
             // Listen to event aggregator constructor events.
-            EventAggregator.OnConstructorEvent += OnConstructorEvent;
+            EventAggregator.OnConstructorEvent += RefreshChoices;
+
+            // Try to restore cached data.
+            RefreshChoices();
         }
 
         private void OnDisable() {
+            OnClearContentEvent -= OnClearContent;
             // Stop listening to event aggregator instance.
             if (eventAggregator != null) {
                 eventAggregator.OnPublishEvent -= OnPublishEvent;
                 eventAggregator.OnListenerEvent -= OnListenerEvent;
             }
             // Stop listening to event aggregator constructor events.
-            EventAggregator.OnConstructorEvent -= OnConstructorEvent;
+            EventAggregator.OnConstructorEvent -= RefreshChoices;
         }
 
         private bool oddCounter = DEFAULT_ODD_COUNTER;
@@ -97,6 +101,8 @@ namespace romanlee17.EventAggregatorEditor {
             DropdownChoice = changeEvent.newValue;
             RestoreContainer(changeEvent.newValue);
         }
+
+        private static event Action<string> OnClearContentEvent;
 
         private void OnClearButtonClick(ClickEvent clickEvent) {
             string dropdownChoice = DropdownChoice;
@@ -108,6 +114,15 @@ namespace romanlee17.EventAggregatorEditor {
                 contentContainer.Clear();
                 oddCounter = DEFAULT_ODD_COUNTER;
             }
+            // Indicate to other windows that clear button was clicked.
+            OnClearContentEvent?.Invoke(dropdownChoice);
+        }
+
+        private void OnClearContent(string dropdownChoice) {
+            if (DropdownChoice != dropdownChoice) return;
+            // Clear content on container with the same name as the one which has been cleared.
+            contentContainer.Clear();
+            oddCounter = DEFAULT_ODD_COUNTER;
         }
 
         private void UpdateEventContainer(int eventDepth) {
@@ -144,8 +159,16 @@ namespace romanlee17.EventAggregatorEditor {
             });
         }
 
-        private void OnConstructorEvent() {
+        private void RefreshChoices() {
             dropdownElement.choices = EventAggregator.Containers.Keys.Select(x => x.Name).ToList();
+
+            if (string.IsNullOrEmpty(DropdownChoice) == true) {
+                // Select first created event aggregator if choices were not saved yet for this window.
+                string firstChoice = dropdownElement.choices.FirstOrDefault();
+                DropdownChoice = firstChoice;
+                dropdownElement.value = firstChoice;
+            }
+
             // Try to restore previous dropdown choice if instance doesn't exist.
             if (eventAggregator == null) {
                 // Try to select last console container chosen.
