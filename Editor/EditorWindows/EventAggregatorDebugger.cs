@@ -1,9 +1,12 @@
 namespace romanlee17.EventAggregatorEditor {
     using romanlee17.EventAggregatorRuntime;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.UIElements;
+    using static UnityEngine.UI.InputField;
+    using EventType = EventAggregatorRuntime.EventType;
 
     internal class EventAggregatorDebugger : EditorWindow {
 
@@ -15,6 +18,8 @@ namespace romanlee17.EventAggregatorEditor {
 
         private const string ODD_CONTAINER_CLASS = "container-odd";
         private const string EVEN_CONTAINER_CLASS = "container-even";
+
+        private const bool DEFAULT_ODD_COUNTER = true;
 
         [SerializeField] private Texture2D windowDarkIcon;
         [SerializeField] private Texture2D windowLightIcon;
@@ -44,56 +49,80 @@ namespace romanlee17.EventAggregatorEditor {
         }
 
         private string DropdownChoice {
-            get => EditorPrefs.GetString($"{WindowId}.{DropdownChoice}", string.Empty);
-            set => EditorPrefs.SetString($"{WindowId}.{DropdownChoice}", value);
+            get => EditorPrefs.GetString($"{WindowId}.{nameof(DropdownChoice)}", string.Empty);
+            set => EditorPrefs.SetString($"{WindowId}.{nameof(DropdownChoice)}", value);
         }
 
         private VisualElement contentContainer;
-        private DropdownField eventAggregatorDropdown;
-        private readonly List<string> dropdownChoices = new();
+        private DropdownField dropdownElement;
+        private EventAggregator eventAggregator;
 
         private void OnEnable() {
-            VisualElement eventAggregatorElement = eventAggregatorUXML.CloneTree();
-            eventAggregatorElement.style.flexGrow = 1;
-            contentContainer = eventAggregatorElement.Q<VisualElement>(CONTENT_CONTAINER_ELEMENT);
-            eventAggregatorDropdown = eventAggregatorElement.Q<DropdownField>();
-            rootVisualElement.Add(eventAggregatorElement);
-            // Listen to all event aggregator class instances events.
-            EventAggregator.OnPublishEvent += OnPublishEvent;
-            EventAggregator.OnListenerEvent += OnListenerEvent;
+            // Window content element.
+            VisualElement windowContentElement = eventAggregatorUXML.CloneTree();
+            windowContentElement.style.flexGrow = 1;
+
+            // Content container element.
+            contentContainer = windowContentElement.Q<VisualElement>(CONTENT_CONTAINER_ELEMENT);
+
+            // Dropdown element.
+            dropdownElement = windowContentElement.Q<DropdownField>();
+            dropdownElement.value = DropdownChoice;
+            dropdownElement.RegisterValueChangedCallback(OnDropdownChange);
+
+            // Clear button element.
+            VisualElement clearButton = windowContentElement.Q<VisualElement>(CLEAR_BUTTON_ELEMENT);
+            clearButton.RegisterCallback<ClickEvent>(OnClearButtonClick);
+
+            rootVisualElement.Add(windowContentElement);
+
+            // Listen to event aggregator constructor events.
+            EventAggregator.OnConstructorEvent += OnConstructorEvent;
         }
 
         private void OnDisable() {
-            // Stop listening to all event aggregator class instances events.
-            EventAggregator.OnPublishEvent -= OnPublishEvent;
-            EventAggregator.OnListenerEvent -= OnListenerEvent;
+            // Stop listening to event aggregator instance.
+            if (eventAggregator != null) {
+                eventAggregator.OnPublishEvent -= OnPublishEvent;
+                eventAggregator.OnListenerEvent -= OnListenerEvent;
+            }
+            // Stop listening to event aggregator constructor events.
+            EventAggregator.OnConstructorEvent -= OnConstructorEvent;
         }
 
-        private void CreateGUI() {
-
-
-            /*VisualElement clearButton = eventAggregatorTree.Q<VisualElement>(CLEAR_BUTTON_ELEMENT);
-            clearButton.RegisterCallback<ClickEvent>(callback => {
-                // TODO: implement this.
-            });*/
-        }
-
-        private bool isOddContainer = true;
+        private bool oddCounter = DEFAULT_ODD_COUNTER;
         private VisualElement eventContainer;
+
+        private void OnDropdownChange(ChangeEvent<string> changeEvent) {
+            DropdownChoice = changeEvent.newValue;
+            RestoreContainer(changeEvent.newValue);
+        }
+
+        private void OnClearButtonClick(ClickEvent clickEvent) {
+            string dropdownChoice = DropdownChoice;
+            foreach (EventAggregator eventAggregator in EventAggregator.Containers.Keys) {
+                if (eventAggregator.Name != dropdownChoice) continue;
+                // Clear event aggregator event collection.
+                EventAggregator.Containers[eventAggregator].Clear();
+                // Clear content container and reset odd element checker.
+                contentContainer.Clear();
+                oddCounter = DEFAULT_ODD_COUNTER;
+            }
+        }
 
         private void UpdateEventContainer(int eventDepth) {
             if (eventContainer == null) {
                 eventContainer = new();
                 eventContainer.AddToClassList(ODD_CONTAINER_CLASS);
                 contentContainer.Add(eventContainer);
-                isOddContainer = false;
+                oddCounter = false;
                 return;
             }
             if (eventDepth == 0) {
                 eventContainer = new();
-                eventContainer.AddToClassList(isOddContainer ? ODD_CONTAINER_CLASS : EVEN_CONTAINER_CLASS);
+                eventContainer.AddToClassList(oddCounter ? ODD_CONTAINER_CLASS : EVEN_CONTAINER_CLASS);
                 contentContainer.Add(eventContainer);
-                isOddContainer = !isOddContainer;
+                oddCounter = !oddCounter;
             }
         }
 
@@ -115,14 +144,49 @@ namespace romanlee17.EventAggregatorEditor {
             });
         }
 
-        /*private void RefreshDropdownChoices() {
-            // Clear the dropdown choices.
-            dropdownChoices.Clear();
-            // Add all console container names to the dropdown choices.
-            foreach (string name in EventAggregator.Instances.Keys.Select(x => x.name)) {
-                dropdownChoices.Add(name);
+        private void OnConstructorEvent() {
+            dropdownElement.choices = EventAggregator.Containers.Keys.Select(x => x.Name).ToList();
+            // Try to restore previous dropdown choice if instance doesn't exist.
+            if (eventAggregator == null) {
+                // Try to select last console container chosen.
+                RestoreContainer(DropdownChoice);
             }
-        }*/
+        }
+
+        private void RestoreContainer(string eventAggregatorName) {
+            contentContainer.Clear();
+            oddCounter = DEFAULT_ODD_COUNTER;
+            // Stop listening to previous event aggregator instance.
+            if (eventAggregator != null) {
+                eventAggregator.OnPublishEvent -= OnPublishEvent;
+                eventAggregator.OnListenerEvent -= OnListenerEvent;
+            }
+            // Update event aggregator instance.
+            foreach (EventAggregator eventAggregator in EventAggregator.Containers.Keys) {
+                if (eventAggregator.Name != eventAggregatorName) continue;
+                this.eventAggregator = eventAggregator;
+                eventAggregator.OnPublishEvent += OnPublishEvent;
+                eventAggregator.OnListenerEvent += OnListenerEvent;
+            }
+            // Recreate event container based on new event aggregator instance.
+            foreach (EventData eventData in EventAggregator.Containers[this.eventAggregator]) {
+                UpdateEventContainer(eventData.EventDepth);
+                if (eventData.EventType == EventType.Publisher) {
+                    eventContainer.Add(new PublisherElement(publisherUXML) {
+                        PublisherName = eventData.EventSource,
+                        EventName = eventData.EventName,
+                        EventDepth = eventData.EventDepth
+                    });
+                }
+                else {
+                    eventContainer.Add(new ListenerElement(listenerUXML) {
+                        EventName = eventData.EventName,
+                        ListenerName = eventData.EventSource,
+                        EventDepth = eventData.EventDepth
+                    });
+                }
+            }
+        }
 
     }
 

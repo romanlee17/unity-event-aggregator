@@ -21,8 +21,8 @@ namespace romanlee17.EventAggregatorRuntime {
 
         // Event aggregator debugger events.
         internal static event Action OnConstructorEvent;
-        internal static event Action<EventData> OnPublishEvent;
-        internal static event Action<EventData> OnListenerEvent;
+        internal event Action<EventData> OnPublishEvent;
+        internal event Action<EventData> OnListenerEvent;
 
         // Event aggregator debugger properties.
         internal string Name { get; }
