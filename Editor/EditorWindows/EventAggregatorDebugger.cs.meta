@@ -1,13 +1,15 @@
 fileFormatVersion: 2
-guid: 95b506b22df9ee241b13769f851a3d48
+guid: 250b7487df1baf7438c33c32e01c6064
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
   - m_ViewDataDictionary: {instanceID: 0}
+  - windowDarkIcon: {instanceID: 0}
+  - windowLightIcon: {instanceID: 0}
   - eventAggregatorUXML: {fileID: 9197481963319205126, guid: 0105741b3c756d54a9033b5915363816, type: 3}
-  - publishEventUXML: {fileID: 9197481963319205126, guid: a91fdf93907761c45ba5e7ea9932942b, type: 3}
-  - listenerEventUXML: {fileID: 9197481963319205126, guid: c9e14b25aa888544d96030388cfa56f3, type: 3}
+  - publisherUXML: {fileID: 9197481963319205126, guid: a91fdf93907761c45ba5e7ea9932942b, type: 3}
+  - listenerUXML: {fileID: 9197481963319205126, guid: c9e14b25aa888544d96030388cfa56f3, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -13,7 +13,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../EditorTextures/publisher-icon.png");
+    background-image: url("project://database/Assets/unity-event-aggregator/Editor/EditorTextures/publisher-icon.png?fileID=2800000&guid=ab9ebd528d7839a4e8714abab47c6b7b&type=3#publisher-icon");
 }
 
 .event-icon {
@@ -21,7 +21,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../EditorTextures/event-icon.png");
+    background-image: url("project://database/Assets/unity-event-aggregator/Editor/EditorTextures/event-icon.png?fileID=2800000&guid=46a6eafb83b97c0448f741768cb29f4d&type=3#event-icon");
 }
 
 .publisher-name {
@@ -55,13 +55,13 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../EditorTextures/arrow-right-icon.png");
+    background-image: url("project://database/Assets/unity-event-aggregator/Editor/EditorTextures/arrow-right-icon.png?fileID=2800000&guid=2a12d1b36ad74a84cbcf36a54e714bc2&type=3#arrow-right-icon");
     margin-right: 5px;
     margin-left: 5px;
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
-.border-left-icon {
+.border-left {
     width: 18px;
     height: 18px;
     margin-right: 10px;
@@ -79,8 +79,7 @@
     flex-grow: 1;
 }
 
-.events-container-odd {
-    background-color: rgb(32, 32, 32);
+.container-odd {
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -91,8 +90,8 @@
     padding-left: 10px;
 }
 
-.events-container-even {
-    background-color: rgb(38, 38, 38);
+.container-even {
+    background-color: rgba(255, 255, 255, 0.05);
     padding-top: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -124,7 +123,7 @@
     flex-grow: 0;
     width: 15px;
     height: 15px;
-    background-image: url("../EditorTextures/arrow-right-icon.png");
+    background-image: url("project://database/Assets/unity-event-aggregator/Editor/EditorTextures/arrow-right-icon.png?fileID=2800000&guid=2a12d1b36ad74a84cbcf36a54e714bc2&type=3#arrow-right-icon");
     margin-right: 5px;
     margin-left: 5px;
     -unity-background-image-tint-color: rgb(255, 255, 255);

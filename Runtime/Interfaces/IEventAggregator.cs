@@ -20,6 +20,9 @@ namespace romanlee17.EventAggregatorRuntime {
         /// <param name="eventListener">The subscriber to unregister.</param>
         public void Unsubscribe<TEvent>(IEventListener<TEvent> eventListener);
 
+        /// <summary>Clear all events in container and dipose it.</summary>
+        public void Dispose();
+
     }
 
 }
